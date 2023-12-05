@@ -51,7 +51,6 @@ init();
 const catcher = document.querySelector(".container");
 
 catcher.addEventListener("click", ({ target }) => {
-  console.log("target: ", target);
   if (target.closest(".market__card")) {
     alert("Это не магазин, глупенький!");
   }

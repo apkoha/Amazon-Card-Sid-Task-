@@ -32,6 +32,7 @@ html {
  text-align: left;
  color: #0F1111;
  background-color: #f8f8f8;
+ cursor: pointer;
 }
 
 .card__image {

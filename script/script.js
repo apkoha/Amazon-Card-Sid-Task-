@@ -1,6 +1,6 @@
 "use strict";
 
-import CARDS from "./books.json" assert { type: "json" }; //https://stackoverflow.com/questions/69548822/
+import CARDS from "../books.json" assert { type: "json" }; //https://stackoverflow.com/questions/69548822/
 
 const createMarketSection = () => {
   const marketSection = document.createElement("section");

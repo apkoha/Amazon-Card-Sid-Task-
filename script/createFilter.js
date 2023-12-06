@@ -1,4 +1,4 @@
-import CARDS from "../books.json" assert { type: "json" };
+import CARDS from "../books.json" assert { type: "json" }; ////https://stackoverflow.com/questions/69548822/
 import { getCards } from "./main.js";
 
 export const createFilterSection = () => {
@@ -17,6 +17,16 @@ export const createFilterSection = () => {
 export const createFilterCategory = () => {
   const filterContainer = document.querySelector(".filter__container");
   const uniqueBookCategories = getCards(CARDS);
+
+  ///////костыль///////
+  const categoryContainer = document.createElement("div");
+  categoryContainer.classList.add("filter__category");
+  filterContainer.append(categoryContainer);
+  categoryContainer.innerHTML = `
+    <input type="checkbox" class="checkbox" data-category="show-all">
+    <span>показать все</span>
+    `;
+  ////////если переделать на баттон, то будет красивее///////
 
   for (let i = 0; i < uniqueBookCategories.length; i++) {
     const categoryContainer = document.createElement("div");

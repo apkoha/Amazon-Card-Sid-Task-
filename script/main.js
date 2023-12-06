@@ -1,6 +1,5 @@
 "use strict";
 
-import CARDS from "../books.json" assert { type: "json" }; //https://stackoverflow.com/questions/69548822/
 import { createCard, createMarketSection, marketCards } from "./createCards.js";
 import { createFilterCategory, createFilterSection } from "./createFilter.js";
 
@@ -34,7 +33,6 @@ init();
 function filterBooks() {
   const checkboxes = document.querySelectorAll(".filter__container input");
   let target = event.target;
-  console.log("target: ", target);
   if (!target.closest(".checkbox")) return;
 
   for (let i = 0; i < checkboxes.length; i++) {
@@ -53,9 +51,10 @@ function filterBooks() {
       ) {
         marketCard.classList.remove("show-card");
       }
-      //  else if (!marketCard.classList.contains("show-card") === false) {
-      //   console.log("7");
-      // }
+
+      if (target.dataset.category === "show-all") {
+        marketCard.classList.add("show-card");
+      }
     });
   }
 }

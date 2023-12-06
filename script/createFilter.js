@@ -23,8 +23,7 @@ export const createFilterCategory = () => {
   categoryContainer.classList.add("filter__category");
   filterContainer.append(categoryContainer);
   categoryContainer.innerHTML = `
-    <input type="checkbox" class="checkbox" data-category="show-all">
-    <span>показать все</span>
+    <button class="button filter__button" data-category="show-all">показать все</button>
     `;
   ////////если переделать на баттон, то будет красивее///////
 

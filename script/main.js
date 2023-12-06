@@ -33,7 +33,7 @@ init();
 function filterBooks() {
   const checkboxes = document.querySelectorAll(".filter__container input");
   let target = event.target;
-  if (!target.closest(".checkbox")) return;
+  if (!target.closest(".checkbox") && !target.closest(".button")) return;
 
   for (let i = 0; i < checkboxes.length; i++) {
     marketCards.forEach((marketCard) => {

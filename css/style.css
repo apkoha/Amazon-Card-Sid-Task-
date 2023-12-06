@@ -12,6 +12,25 @@ html {
   display: none;
 }
 
+.button {
+  cursor: pointer;
+  border: none;
+}
+
+.filter__button {
+  padding: 4px 12px;
+  display: block;
+  font-size: 22px;
+  font-weight: 500;
+  border-radius: 5px;
+  margin: 0 auto;
+  margin-bottom: 12px;
+}
+
+.filter__button:hover {
+  background-color: #c7c7c7;
+}
+
 .store {
   display: flex;
   justify-content: start;
@@ -41,6 +60,10 @@ html {
   display: block;
   font-size: 22px;
   font-weight: 500;
+}
+
+.filter__category input {
+  cursor: pointer;
 }
 
 .container {

@@ -32,19 +32,32 @@ const init = () => {
 init();
 
 function filterBooks() {
+  const checkboxes = document.querySelectorAll(".filter__container input");
   let target = event.target;
+  console.log("target: ", target);
   if (!target.closest(".checkbox")) return;
-  let targetCategory = target.dataset.category;
 
-  marketCards.forEach((marketCard) => {
-    let bookCategory = marketCard.dataset;
-    let { category } = bookCategory;
+  for (let i = 0; i < checkboxes.length; i++) {
+    marketCards.forEach((marketCard) => {
+      let bookCategory = marketCard.dataset;
+      let { category } = bookCategory;
 
-    marketCard.classList.add("show-card");
-    if (target.checked && !marketCard.classList.contains(targetCategory)) {
-      marketCard.classList.remove("show-card");
-    }
-  });
+      if (
+        checkboxes[i].checked &&
+        checkboxes[i].dataset.category === category
+      ) {
+        marketCard.classList.add("show-card");
+      } else if (
+        !checkboxes[i].checked &&
+        checkboxes[i].dataset.category === category
+      ) {
+        marketCard.classList.remove("show-card");
+      }
+      //  else if (!marketCard.classList.contains("show-card") === false) {
+      //   console.log("7");
+      // }
+    });
+  }
 }
 
 const filterCheckboxes = document.querySelector(".filter__container");

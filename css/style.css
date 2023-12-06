@@ -12,17 +12,41 @@ html {
   display: none;
 }
 
-.market {
-  max-width: 1110px;
+.store {
+  display: flex;
+  justify-content: start;
+  max-width: 1280px;
   margin: 0 auto;
-  padding: 60px 0;
+  padding: 60px 30px;
+}
+
+.filter {
+  min-width: 240px;
+}
+
+.filter__container {
+  display: flex;
+  flex-direction: column;
+  padding: 8px 16px 0 16px;
+  gap: 8px;
+}
+
+.filter__category {
+  display: flex;
+  justify-content: start;
+  gap: 12px;
+}
+
+.filter__category span {
+  display: block;
+  font-size: 22px;
+  font-weight: 500;
 }
 
 .container {
   display: flex;
   justify-content: space-evenly;
   flex-wrap: wrap;
-  padding: 0 60px;
   gap: 8px
 }
 
@@ -31,8 +55,12 @@ html {
  min-height: 480px;
  text-align: left;
  color: #0F1111;
- background-color: #f8f8f8;
  cursor: pointer;
+ display: none;
+}
+
+.show-card {
+  display: block;
 }
 
 .card__image {

@@ -1,69 +1,68 @@
-"use strict";
+import CARDS from "../books.json" assert { type: "json" }; // https://stackoverflow.com/questions/69548822/
 
-import { createCard, createMarketSection, marketCards } from "./createCards.js";
+import {
+  createMarketSection,
+  categoryList,
+  showFiltredBooks,
+  getCards,
+} from "./createCards.js";
+
 import { createFilterCategory, createFilterSection } from "./createFilter.js";
 
+//создание main
 const createMain = () => {
   const storeMain = document.createElement("main");
   storeMain.classList.add("store");
   document.body.append(storeMain);
 };
 
-export const getCards = (CARDS) => {
-  let bookCategories = [];
-
-  for (const card of CARDS) {
-    createCard(card);
-    bookCategories.push(card.category);
-  }
-
-  const uniqueBookCategories = [...new Set(bookCategories)];
-  return uniqueBookCategories;
-};
-
 const init = () => {
   createMain();
   createMarketSection();
+  getCards(CARDS);
   createFilterSection();
   createFilterCategory();
 };
 
 init();
 
+//фильтрация книг по категориям выбранным в чекбокс
 function filterBooks() {
-  const checkboxes = document.querySelectorAll(".filter__container input");
-  let target = event.target;
-  if (!target.closest(".checkbox") && !target.closest(".button")) return;
+  const target = event.target;
+  const bookCategory = target.dataset.category;
+  const marketContainer = document.querySelector(".container");
 
-  for (let i = 0; i < checkboxes.length; i++) {
-    marketCards.forEach((marketCard) => {
-      let bookCategory = marketCard.dataset;
-      let { category } = bookCategory;
+  //проверка таргета на соответствие классу чекбокс
+  if (!target.closest(".checkbox")) return;
 
-      if (
-        checkboxes[i].checked &&
-        checkboxes[i].dataset.category === category
-      ) {
-        marketCard.classList.add("show-card");
-      } else if (
-        !checkboxes[i].checked &&
-        checkboxes[i].dataset.category === category
-      ) {
-        marketCard.classList.remove("show-card");
-      }
+  //добавление значения категории, выбранного чекбокса, в массив. И отрисовка книг выбранной категории.
+  if (target.checked) {
+    categoryList.push(bookCategory);
 
-      if (target.dataset.category === "show-all") {
-        marketCard.classList.add("show-card");
-      }
-    });
+    marketContainer.innerHTML = "";
+    showFiltredBooks(CARDS);
+  } else {
+    //удаление категории снятого чекбокса из массива
+    for (let i = 0; i < categoryList.length; i++) {
+      if (categoryList[i] === bookCategory) categoryList.splice(i, 1);
+
+      marketContainer.innerHTML = "";
+      showFiltredBooks(CARDS);
+    }
+  }
+
+  //если не выбрана ни одна из категорий, то отрисовать все книги
+  if (categoryList.length === 0) {
+    getCards(CARDS);
   }
 }
 
+//клик по чекбоксу
 const filterCheckboxes = document.querySelector(".filter__container");
-filterCheckboxes.addEventListener("click", filterBooks);
+filterCheckboxes.addEventListener("change", filterBooks);
 
+//клик по карточке товара
 const catcher = document.querySelector(".container");
-
 catcher.addEventListener("click", ({ target }) => {
   if (target.closest(".market__card")) {
     alert("Это не магазин, глупенький!");
@@ -76,3 +75,5 @@ catcher.addEventListener("click", ({ target }) => {
 выполнение доходит до этого места, функция останавливается, и значение
 возвращается в вызвавший её код (присваивается переменной result выше)
  */
+
+/* Видимость переменных в модульной системе https://learn.javascript.ru/modules-intro/ */

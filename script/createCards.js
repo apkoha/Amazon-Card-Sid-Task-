@@ -1,3 +1,4 @@
+//создание section class="market"
 export const createMarketSection = () => {
   const storeSection = document.querySelector(".store");
 
@@ -11,14 +12,15 @@ export const createMarketSection = () => {
   storeSection.append(marketSection);
 };
 
-export const marketCards = [];
+//по клику на чекбокс. получаем из него категорию книги и записываем в массив "categoryList"
+export let categoryList = [];
 
+//создание карточки товара
 export const createCard = (card) => {
   const marketContainer = document.querySelector(".container");
   const marketCard = document.createElement("div");
   marketCard.classList.add("market__card");
   marketCard.classList.add(card.category);
-  marketCard.classList.add("show-card");
   marketCard.dataset.category = card.category;
 
   marketCard.innerHTML = `
@@ -33,6 +35,27 @@ export const createCard = (card) => {
   `;
 
   marketContainer.append(marketCard);
-  marketCards.push(marketCard);
-  return marketCards;
+};
+
+//отрисовка карточек товара
+export const getCards = (cards) => {
+  for (const card of cards) {
+    createCard(card);
+  }
+};
+
+//создание карточек отфильтрованных книг
+const createFiltredBooks = (card) => {
+  for (let i = 0; i < categoryList.length; i++) {
+    if (categoryList[i] == card.category) {
+      createCard(card);
+    }
+  }
+};
+
+//отрисовка отфильтрованных книг
+export const showFiltredBooks = (cards) => {
+  for (const card of cards) {
+    createFiltredBooks(card);
+  }
 };

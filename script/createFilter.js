@@ -1,6 +1,6 @@
-import CARDS from "../books.json" assert { type: "json" }; ////https://stackoverflow.com/questions/69548822/
-import { getCards } from "./main.js";
+import CARDS from "../books.json" assert { type: "json" };
 
+//создание section class="filter"
 export const createFilterSection = () => {
   const storeSection = document.querySelector(".store");
 
@@ -14,18 +14,21 @@ export const createFilterSection = () => {
   storeSection.prepend(filterSection);
 };
 
+//получение уникальных категорий книг
+const getBookCategories = (cards) => {
+  let bookCategories = [];
+  for (const card of cards) {
+    bookCategories.push(card.category);
+  }
+
+  const uniqueBookCategories = [...new Set(bookCategories)];
+  return uniqueBookCategories;
+};
+
+//отрисовка фильтров категорий книг
 export const createFilterCategory = () => {
   const filterContainer = document.querySelector(".filter__container");
-  const uniqueBookCategories = getCards(CARDS);
-
-  ///////костыль///////
-  const categoryContainer = document.createElement("div");
-  categoryContainer.classList.add("filter__category");
-  filterContainer.append(categoryContainer);
-  categoryContainer.innerHTML = `
-    <button class="button filter__button" data-category="show-all">показать все</button>
-    `;
-  ////////если переделать на баттон, то будет красивее///////
+  const uniqueBookCategories = getBookCategories(CARDS);
 
   for (let i = 0; i < uniqueBookCategories.length; i++) {
     const categoryContainer = document.createElement("div");

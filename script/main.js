@@ -5,6 +5,10 @@ import {
   categoryList,
   showFiltredBooks,
   getCards,
+  showLowPriceBooks,
+  showTopPriceBooks,
+  lowPriceBooks,
+  topPriceBooks,
 } from "./createCards.js";
 
 import { createFilterCategory, createFilterSection } from "./createFilter.js";
@@ -26,11 +30,12 @@ const init = () => {
 
 init();
 
+const marketContainer = document.querySelector(".container");
+
 //фильтрация книг по категориям выбранным в чекбокс
 function filterBooks() {
   const target = event.target;
   const bookCategory = target.dataset.category;
-  const marketContainer = document.querySelector(".container");
 
   //проверка таргета на соответствие классу чекбокс
   if (!target.closest(".checkbox")) return;
@@ -61,6 +66,34 @@ function filterBooks() {
 const filterCheckboxes = document.querySelector(".filter__container");
 filterCheckboxes.addEventListener("change", filterBooks);
 
+//сортировка книг по цене при выборе опции селекта
+const filterPrice = () => {
+  const selectValue =
+    bookPriceSelect.options[bookPriceSelect.selectedIndex].value;
+
+  //https://learn.javascript.ru/switch
+  switch (selectValue) {
+    case "value1":
+      marketContainer.innerHTML = "";
+      getCards(CARDS);
+      break;
+
+    case "value2":
+      marketContainer.innerHTML = "";
+      showLowPriceBooks(lowPriceBooks);
+      break;
+
+    case "value3":
+      marketContainer.innerHTML = "";
+      showTopPriceBooks(topPriceBooks);
+      break;
+  }
+};
+
+//клик по select price
+const bookPriceSelect = document.querySelector(".filter__select-price");
+bookPriceSelect.addEventListener("change", filterPrice);
+
 //клик по карточке товара
 const catcher = document.querySelector(".container");
 catcher.addEventListener("click", ({ target }) => {
@@ -77,3 +110,5 @@ catcher.addEventListener("click", ({ target }) => {
  */
 
 /* Видимость переменных в модульной системе https://learn.javascript.ru/modules-intro/ */
+
+/* при выбранном чекбоксе сделать сброс селекта сортировки по цене на первое значение */

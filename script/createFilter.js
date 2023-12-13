@@ -11,6 +11,11 @@ export const createFilterSection = () => {
   filterContainer.classList.add("filter__container");
   filterSection.append(filterContainer);
 
+  storeSection.prepend(filterSection);
+};
+
+export const createFilters = () => {
+  const filterContainer = document.querySelector(".filter__container");
   const filterCategoryContainer = document.createElement("div");
   filterCategoryContainer.classList.add("filter__category-container");
   filterContainer.append(filterCategoryContainer);
@@ -52,8 +57,6 @@ export const createFilterSection = () => {
   bookSelectOptions3.setAttribute("value", "value3");
   bookSelectOptions3.innerText = "по убыванию";
   bookPriceSelect.append(bookSelectOptions3);
-
-  storeSection.prepend(filterSection);
 };
 
 //получение уникальных категорий книг
@@ -87,3 +90,5 @@ export const createFilterCategory = () => {
 
 /* Можно обернуть input+span в label, чтобы выбор категорий был не только по нажатию на чекбокс,
  но и на наименование категории. Но тогда нужно переписывать filterBooks() */
+
+/*для фильтров по возрастанию/убыванию можно создать файл json из которого будут браться свойства/атрибуты*/

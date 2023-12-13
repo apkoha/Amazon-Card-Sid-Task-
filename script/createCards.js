@@ -14,9 +14,6 @@ export const createMarketSection = () => {
   storeSection.append(marketSection);
 };
 
-//по клику на чекбокс. получаем из него категорию книги и записываем в массив "categoryList"
-export let categoryList = [];
-
 //создание карточки товара
 export const createCard = (card) => {
   const marketContainer = document.querySelector(".container");
@@ -50,6 +47,9 @@ export const getCards = (cards) => {
     createCard(card);
   }
 };
+
+//по клику на чекбокс. получаем из него категорию книги и записываем в массив "categoryList"
+export let categoryList = [];
 
 //создание карточек отфильтрованных книг
 const createFiltredBooks = (card) => {
@@ -110,14 +110,14 @@ export let topPriceBooks = booksPriceList.map(function (card) {
   return CARDS[card.index];
 });
 
-//отрисовка книг отсортированных по цене по возрастанию
+//отрисовка книг, отсортированных по цене по возрастанию
 export const showLowPriceBooks = (lowPriceBooks) => {
   for (const book of lowPriceBooks) {
     createCard(book);
   }
 };
 
-//отрисовка книг отсортированных по цене по убыванию
+//отрисовка книг, отсортированных по цене по убыванию
 export const showTopPriceBooks = (topPriceBooks) => {
   for (const book of topPriceBooks) {
     createCard(book);

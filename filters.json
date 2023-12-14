@@ -1,0 +1,16 @@
+[
+  {
+    "category": "price",
+    "title": "Сортировать по цене:",
+    "selectOption1": "",
+    "selectOption2": "по возрастанию",
+    "selectOption3": "по убыванию"
+},
+{
+  "category": "grade",
+  "title": "Сортировать по оценке:",
+  "selectOption1": "",
+  "selectOption2": "по возрастанию",
+  "selectOption3": "по убыванию"
+}
+]

@@ -85,16 +85,23 @@ html {
   cursor: pointer;
 }
 
-.filter__category-container,
-.filter__price-container{
+.filter__category-container {
   margin-top: 20px;
+}
+
+.filter__price-container {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin: 4px 16px;
 }
 
 .filter__price_tittle {
   margin: 0;
 }
 
-.filter__select-price {
+.filter__select-price,
+.filter__select-property {
   min-width: 208px;
   min-height: 28px;
   margin-top: 12px;

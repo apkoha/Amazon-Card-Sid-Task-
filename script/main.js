@@ -1,8 +1,6 @@
 import CARDS from "../books.json" assert { type: "json" }; // https://stackoverflow.com/questions/69548822/
-import { filterBooks, filterPrice } from "./filter.js";
-
+import { filterBooks } from "./filter.js";
 import { createMarketSection, getCards } from "./createCards.js";
-
 import {
   createFilterCategory,
   createFilterSection,
@@ -30,14 +28,14 @@ const init = () => {
 init();
 
 export const marketContainer = document.querySelector(".container");
+export const bookPriceSelect = document.querySelector(".filter__select-price");
+export const booksPropertySelect = document.querySelector(
+  ".filter__select-property"
+);
 
 //клик по чекбоксу
 const filterCheckboxes = document.querySelector(".filter__container");
 filterCheckboxes.addEventListener("change", filterBooks);
-
-//клик по select price
-export const bookPriceSelect = document.querySelector(".filter__select-price");
-bookPriceSelect.addEventListener("change", filterPrice);
 
 //клик по карточке товара
 const catcher = document.querySelector(".container");
@@ -47,8 +45,8 @@ catcher.addEventListener("click", ({ target }) => {
   }
 });
 
-//реализация Live Search
-const search = document.getElementById("search");
+//реализация Live Search. search.js
+export const search = document.getElementById("search");
 //вводимый в input запрос
 export let search_term = "";
 

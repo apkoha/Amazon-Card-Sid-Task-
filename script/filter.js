@@ -1,15 +1,10 @@
 import CARDS from "../books.json" assert { type: "json" };
 
-import {
-  categoryList,
-  getCards,
-  lowPriceBooks,
-  showFiltredBooks,
-  showLowPriceBooks,
-  showTopPriceBooks,
-  topPriceBooks,
-} from "./createCards.js";
-import { bookPriceSelect, marketContainer } from "./main.js";
+import { categoryList, getCards, showFiltredBooks } from "./createCards.js";
+import { marketContainer, search } from "./main.js";
+
+//массив книг отфильтрованных по чекбоксу
+export let selectedBooksArray = [];
 
 //фильтрация книг по категориям выбранным в чекбокс
 export function filterBooks() {
@@ -22,16 +17,35 @@ export function filterBooks() {
   //добавление значения категории, выбранного чекбокса, в массив. И отрисовка книг выбранной категории.
   if (target.checked) {
     categoryList.push(bookCategory);
+    search.value = "";
+
+    //получение массива книг по выбранному чекбоксу
+    const getBooks = (CARDS) => {
+      for (const book of CARDS) {
+        if (bookCategory == book.category) {
+          selectedBooksArray.push(book);
+        }
+      }
+    };
+    getBooks(CARDS);
 
     marketContainer.innerHTML = "";
     showFiltredBooks(CARDS);
   } else {
+    search.value = "";
     //удаление категории снятого чекбокса из массива
     for (let i = 0; i < categoryList.length; i++) {
       if (categoryList[i] === bookCategory) categoryList.splice(i, 1);
 
       marketContainer.innerHTML = "";
       showFiltredBooks(CARDS);
+    }
+
+    //удаление книг из массива по снятому чекбоксу
+    for (let j = 0; j < selectedBooksArray.length; j++) {
+      if (selectedBooksArray[j].category === bookCategory) {
+        selectedBooksArray.splice(j);
+      }
     }
   }
 
@@ -40,27 +54,3 @@ export function filterBooks() {
     getCards(CARDS);
   }
 }
-
-//сортировка книг по цене при выборе опции селекта
-export const filterPrice = () => {
-  const selectValue =
-    bookPriceSelect.options[bookPriceSelect.selectedIndex].value;
-
-  //https://learn.javascript.ru/switch
-  switch (selectValue) {
-    case "value1":
-      marketContainer.innerHTML = "";
-      getCards(CARDS);
-      break;
-
-    case "value2":
-      marketContainer.innerHTML = "";
-      showLowPriceBooks(lowPriceBooks);
-      break;
-
-    case "value3":
-      marketContainer.innerHTML = "";
-      showTopPriceBooks(topPriceBooks);
-      break;
-  }
-};

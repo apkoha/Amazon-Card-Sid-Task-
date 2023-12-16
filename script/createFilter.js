@@ -1,4 +1,6 @@
 import CARDS from "../books.json" assert { type: "json" };
+import { search } from "./main.js";
+import { filterPrice } from "./sort.js";
 
 //создание section class="filter"
 export const createFilterSection = () => {
@@ -15,6 +17,8 @@ export const createFilterSection = () => {
 };
 
 export const createFilters = () => {
+  const marketSection = document.querySelector(".market");
+
   const filterContainer = document.querySelector(".filter__container");
   const filterCategoryContainer = document.createElement("div");
   filterCategoryContainer.classList.add("filter__category-container");
@@ -27,36 +31,44 @@ export const createFilters = () => {
 
   const filterPriceContainer = document.createElement("div");
   filterPriceContainer.classList.add("filter__price-container");
-  filterContainer.append(filterPriceContainer);
+  marketSection.prepend(filterPriceContainer);
 
-  const bookPriceTitle = document.createElement("h3");
-  bookPriceTitle.classList.add("filter__price_tittle");
-  bookPriceTitle.innerText = "Сортировать по цене:";
-  filterPriceContainer.append(bookPriceTitle);
+  const booksPropertySelect = document.createElement("select");
+  booksPropertySelect.classList.add("filter__select-property");
+  booksPropertySelect.addEventListener("change", clearInputSearch);
+  booksPropertySelect.setAttribute("name", "books_select");
+  filterPriceContainer.append(booksPropertySelect);
+
+  booksPropertySelect.innerHTML = `
+  <option class="filter__select-options" value="value2">
+  </option>;
+  <option class="filter__select-options" value="price">
+    цена
+  </option>;
+  <option class="filter__select-options" value="garde">
+    рейтинг
+  </option>;
+  <option class="filter__select-options" value="amount">
+    остаток
+  </option>;
+  // `;
 
   const bookPriceSelect = document.createElement("select");
+  bookPriceSelect.addEventListener("change", filterPrice);
   bookPriceSelect.classList.add("filter__select-price");
   bookPriceSelect.setAttribute("name", "price_select");
   filterPriceContainer.append(bookPriceSelect);
 
-  //внимание! повторяющийся код
-  const bookSelectOptions1 = document.createElement("option");
-  bookSelectOptions1.classList.add("filter__select-options");
-  bookSelectOptions1.setAttribute("value", "value1");
-  bookSelectOptions1.innerText = "";
-  bookPriceSelect.append(bookSelectOptions1);
-
-  const bookSelectOptions2 = document.createElement("option");
-  bookSelectOptions2.classList.add("filter__select-options");
-  bookSelectOptions2.setAttribute("value", "value2");
-  bookSelectOptions2.innerText = "по возрастанию";
-  bookPriceSelect.append(bookSelectOptions2);
-
-  const bookSelectOptions3 = document.createElement("option");
-  bookSelectOptions3.classList.add("filter__select-options");
-  bookSelectOptions3.setAttribute("value", "value3");
-  bookSelectOptions3.innerText = "по убыванию";
-  bookPriceSelect.append(bookSelectOptions3);
+  bookPriceSelect.innerHTML = `
+  <option class="filter__select-options" value="value1">
+  </option>;
+  <option class="filter__select-options" value="FromLowToHigh">
+  по возрастанию
+  </option>;
+  <option class="filter__select-options" value="FromHighToLow">
+  по убыванию
+  </option>;
+  `;
 };
 
 //получение уникальных категорий книг
@@ -75,17 +87,29 @@ export const createFilterCategory = () => {
   const filterCategoryContainer = document.querySelector(
     ".filter__category-container"
   );
+
   const uniqueBookCategories = getBookCategories(CARDS);
 
+  //перебор массива с уникальными категориями книг и создание по ним чекбоксов в контейнерах
   for (let i = 0; i < uniqueBookCategories.length; i++) {
     const categoryContainer = document.createElement("div");
     categoryContainer.classList.add("filter__category");
     filterCategoryContainer.append(categoryContainer);
-    categoryContainer.innerHTML = `
-    <input type="checkbox" class="checkbox" data-category="${uniqueBookCategories[i]}">
-    <span>${uniqueBookCategories[i]}</span>
-    `;
+
+    const categoryCheckbox = document.createElement("input");
+    categoryCheckbox.classList.add("checkbox");
+    categoryCheckbox.setAttribute("type", "checkbox");
+    categoryCheckbox.setAttribute("data-category", uniqueBookCategories[i]);
+    categoryContainer.append(categoryCheckbox);
+
+    const categorySpan = document.createElement("span");
+    categorySpan.innerText = `${uniqueBookCategories[i]}`;
+    categoryContainer.append(categorySpan);
   }
+};
+
+const clearInputSearch = () => {
+  // search.value = "";
 };
 
 /* Можно обернуть input+span в label, чтобы выбор категорий был не только по нажатию на чекбокс,

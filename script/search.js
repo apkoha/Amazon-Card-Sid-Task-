@@ -17,7 +17,8 @@ export const createSearchBlock = () => {
 
 //реализация Live Search (https://codepen.io/rebelchris/pen/WNxzmeY https://daily-dev-tips.com/posts/vanilla-javascript-live-search/)
 
-export let foundBooks = CARDS;
+// export let foundBooks = CARDS;
+export let foundBooks = [];
 
 const search = (booksArray) => {
   //перебор книг по автору и названию с учётом введённого в строку поиска
@@ -29,20 +30,21 @@ const search = (booksArray) => {
   });
 
   //отрисовка книг по результам booksArray.filter
-  foundBooks.forEach(() => {
+  if (foundBooks.length > 0) {
+    //костыль. из-за отрисовки книг даже при длинне массива 0
+    foundBooks.forEach(() => {
+      marketContainer.innerHTML = "";
+      getCards(foundBooks);
+    });
+  } else {
     marketContainer.innerHTML = "";
-    getCards(foundBooks);
-  });
-
-  return foundBooks; // бесполезная строка
+  }
 };
 
 export const searchBooks = () => {
   if (selectedBooksArray.length != 0) {
     search(selectedBooksArray);
-    console.log("foundBooks: ", foundBooks);
   } else {
     search(CARDS);
-    console.log("foundBooks: ", foundBooks);
   }
 };

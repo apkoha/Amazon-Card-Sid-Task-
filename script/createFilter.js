@@ -1,6 +1,6 @@
 import CARDS from "../books.json" assert { type: "json" };
 import { search } from "./main.js";
-import { filterPrice } from "./sort.js";
+import { filterProperty } from "./sort.js";
 
 //создание section class="filter"
 export const createFilterSection = () => {
@@ -45,7 +45,7 @@ export const createFilters = () => {
   <option class="filter__select-options" value="price">
     цена
   </option>;
-  <option class="filter__select-options" value="garde">
+  <option class="filter__select-options" value="grade">
     рейтинг
   </option>;
   <option class="filter__select-options" value="amount">
@@ -54,7 +54,7 @@ export const createFilters = () => {
   // `;
 
   const bookPriceSelect = document.createElement("select");
-  bookPriceSelect.addEventListener("change", filterPrice);
+  bookPriceSelect.addEventListener("change", filterProperty);
   bookPriceSelect.classList.add("filter__select-price");
   bookPriceSelect.setAttribute("name", "price_select");
   filterPriceContainer.append(bookPriceSelect);

@@ -2,6 +2,7 @@ import CARDS from "../books.json" assert { type: "json" };
 
 import { categoryList, getCards, showFiltredBooks } from "./createCards.js";
 import { marketContainer, search } from "./main.js";
+import { foundBooks } from "./search.js";
 
 //массив книг отфильтрованных по чекбоксу
 export let selectedBooksArray = [];
@@ -32,6 +33,7 @@ export function filterBooks() {
     marketContainer.innerHTML = "";
     showFiltredBooks(CARDS);
   } else {
+    //очистка поля ввода
     search.value = "";
     //удаление категории снятого чекбокса из массива
     for (let i = 0; i < categoryList.length; i++) {
@@ -42,6 +44,7 @@ export function filterBooks() {
     }
 
     //удаление книг из массива по снятому чекбоксу
+
     for (let j = 0; j < selectedBooksArray.length; j++) {
       if (selectedBooksArray[j].category === bookCategory) {
         selectedBooksArray.splice(j);

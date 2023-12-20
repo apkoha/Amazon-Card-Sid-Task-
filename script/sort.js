@@ -1,13 +1,12 @@
 import CARDS from "../books.json" assert { type: "json" };
-import { createCard, getCards } from "./createCards.js";
+import { createCard } from "./createCards.js";
 
 import {
   bookPriceSelect,
   booksPropertySelect,
   marketContainer,
 } from "./main.js";
-import { foundBooks } from "./search.js";
-import { selectedBooksArray } from "./filter.js";
+import { selectedBooksArray, foundBooks } from "./filter.js";
 
 //функции для сортировки цены
 
@@ -41,208 +40,249 @@ const sortFromHighToLow = (booksArray) => {
   });
 };
 
-const sortOnLowPrice = () => {
+//сортировка по цене
+const sortOnLowPrice = (booksArray) => {
+  //временный массив содержит объекты с позицией и значением сортировки
   let booksPriceList = [];
-  let lowPriceBooks = [];
+  booksPriceList = booksArray.map(function (book, i) {
+    return { index: i, value: book.price };
+  });
 
-  if (selectedBooksArray.length != 0 && foundBooks.length === 0) {
-    //временный массив содержит объекты с позицией и значением сортировки
-    booksPriceList = selectedBooksArray.map(function (book, i) {
-      return { index: i, value: book.price };
-    });
+  //сортируем массив цен от меньшего к большему
+  sortFromLowToHigh(booksPriceList);
 
-    //сортируем массив цен от меньшего к большему
-    sortFromLowToHigh(booksPriceList);
-
-    //контейнер для результа сортировки
-    lowPriceBooks = booksPriceList.map(function (book) {
-      return selectedBooksArray[book.index];
-    });
-  } else {
-    booksPriceList = foundBooks.map(function (book, i) {
-      return { index: i, value: book.price };
-    });
-
-    sortFromLowToHigh(booksPriceList);
-
-    lowPriceBooks = booksPriceList.map(function (book) {
-      return foundBooks[book.index];
-    });
-  }
+  //контейнер для результа сортировки
+  let lowPriceBooks = booksPriceList.map(function (book) {
+    return booksArray[book.index];
+  });
 
   return lowPriceBooks;
 };
 
-//отрисовка книг, отсортированных по цене по возрастанию
-const showLowPriceBooks = () => {
-  let lowPriceBooks = [];
-
-  if (selectedBooksArray.length != 0) {
-    lowPriceBooks = sortOnLowPrice(selectedBooksArray);
-
-    for (const book of lowPriceBooks) {
-      createCard(book);
-    }
-  } else {
-    lowPriceBooks = sortOnLowPrice(foundBooks);
-
-    for (const book of lowPriceBooks) {
-      createCard(book);
-    }
-  }
-};
-
-const sortOnHighPrice = () => {
+const sortOnHighPrice = (booksArray) => {
+  //временный массив содержит объекты с позицией и значением сортировки
   let booksPriceList = [];
-  let topPriceBooks = [];
+  booksPriceList = booksArray.map(function (book, i) {
+    return { index: i, value: book.price };
+  });
 
-  if (selectedBooksArray.length != 0 && foundBooks.length === 0) {
-    booksPriceList = selectedBooksArray.map(function (book, i) {
-      return { index: i, value: book.price };
-    });
+  //сортируем массив цен от меньшего к большему
+  sortFromHighToLow(booksPriceList);
 
-    sortFromHighToLow(booksPriceList);
-
-    topPriceBooks = booksPriceList.map(function (book) {
-      return selectedBooksArray[book.index];
-    });
-  } else {
-    booksPriceList = foundBooks.map(function (book, i) {
-      return { index: i, value: book.price };
-    });
-
-    sortFromHighToLow(booksPriceList);
-
-    topPriceBooks = booksPriceList.map(function (book) {
-      return foundBooks[book.index];
-    });
-  }
+  //контейнер для результа сортировки
+  let topPriceBooks = booksPriceList.map(function (book) {
+    return booksArray[book.index];
+  });
 
   return topPriceBooks;
 };
 
-//отрисовка книг, отсортированных по цене по убыванию
-const showTopPriceBooks = () => {
-  let topPriceBooks = [];
+const showLowPriceBooks = () => {
+  let lowPriceBooksArray = [];
 
-  if (selectedBooksArray.length != 0) {
-    topPriceBooks = sortOnHighPrice(selectedBooksArray);
+  if ((selectedBooksArray.length, foundBooks.length) === 0) {
+    lowPriceBooksArray = sortOnLowPrice(CARDS);
+  }
 
-    for (const book of topPriceBooks) {
-      createCard(book);
-    }
-  } else {
-    topPriceBooks = sortOnHighPrice(foundBooks);
+  if (foundBooks.length != 0) {
+    lowPriceBooksArray = sortOnLowPrice(foundBooks);
+  }
 
-    for (const book of topPriceBooks) {
-      createCard(book);
-    }
+  if (selectedBooksArray.length != 0 && foundBooks.length === 0) {
+    lowPriceBooksArray = sortOnLowPrice(selectedBooksArray);
+  }
+
+  for (const book of lowPriceBooksArray) {
+    createCard(book);
   }
 };
 
-/////////////сортировка по оценке
-const sortOnLowGrade = () => {
-  let booksGradeList = [];
-  let lowGradeBooks = [];
+const showTopPriceBooks = () => {
+  let topPriceBooksArray = [];
+
+  if ((selectedBooksArray.length, foundBooks.length) === 0) {
+    topPriceBooksArray = sortOnHighPrice(CARDS);
+  }
+
+  if (foundBooks.length != 0) {
+    topPriceBooksArray = sortOnHighPrice(foundBooks);
+  }
 
   if (selectedBooksArray.length != 0 && foundBooks.length === 0) {
-    //временный массив содержит объекты с позицией и значением сортировки по оценке
-    booksGradeList = selectedBooksArray.map(function (book, i) {
-      return { index: i, value: book.rating };
-    });
-
-    //сортируем массив оценок от меньшего к большему
-    sortFromLowToHigh(booksGradeList);
-
-    //контейнер для результа сортировки по оценке
-    lowGradeBooks = booksGradeList.map(function (book) {
-      return selectedBooksArray[book.index];
-    });
-  } else {
-    //временный массив содержит объекты с позицией и значением сортировки по оценке
-    booksGradeList = foundBooks.map(function (book, i) {
-      return { index: i, value: book.rating };
-    });
-
-    //сортируем массив оценок от меньшего к большему
-    sortFromLowToHigh(booksGradeList);
-
-    //контейнер для результа сортировки по оценке
-    lowGradeBooks = booksGradeList.map(function (book) {
-      return foundBooks[book.index];
-    });
+    topPriceBooksArray = sortOnHighPrice(selectedBooksArray);
   }
+
+  for (const book of topPriceBooksArray) {
+    createCard(book);
+  }
+};
+
+//сортировка по оценке
+const sortOnLowGrade = (booksArray) => {
+  //временный массив содержит объекты с позицией и значением сортировки
+  let booksPriceList = [];
+  booksPriceList = booksArray.map(function (book, i) {
+    return { index: i, value: book.rating };
+  });
+
+  //сортируем массив цен от меньшего к большему
+  sortFromLowToHigh(booksPriceList);
+
+  //контейнер для результа сортировки
+  let lowGradeBooks = booksPriceList.map(function (book) {
+    return booksArray[book.index];
+  });
 
   return lowGradeBooks;
 };
 
-//отрисовка книг, отсортированных по оценке по возрастанию
-const showLowGradeBooks = () => {
-  let lowGradeBooks = [];
+const sortOnHighGrade = (booksArray) => {
+  //временный массив содержит объекты с позицией и значением сортировки
+  let booksPriceList = [];
+  booksPriceList = booksArray.map(function (book, i) {
+    return { index: i, value: book.rating };
+  });
 
-  if (selectedBooksArray.length != 0) {
-    lowGradeBooks = sortOnLowGrade(selectedBooksArray);
-    for (const book of lowGradeBooks) {
-      createCard(book);
-    }
-  } else {
-    lowGradeBooks = sortOnLowGrade(foundBooks);
-    for (const book of lowGradeBooks) {
-      createCard(book);
-    }
-  }
-};
+  //сортируем массив цен от меньшего к большему
+  sortFromHighToLow(booksPriceList);
 
-const sortOnHighGrade = () => {
-  let booksGradeList = [];
-  let highGradeBooks = [];
-
-  if (selectedBooksArray.length != 0 && foundBooks.length === 0) {
-    booksGradeList = selectedBooksArray.map(function (book, i) {
-      return { index: i, value: book.rating };
-    });
-
-    //сортируем массив оценок от меньшего к большему
-    sortFromHighToLow(booksGradeList);
-
-    //контейнер для результа сортировки по оценке
-    highGradeBooks = booksGradeList.map(function (book) {
-      return selectedBooksArray[book.index];
-    });
-  } else {
-    //временный массив содержит объекты с позицией и значением сортировки по оценке
-    booksGradeList = foundBooks.map(function (book, i) {
-      return { index: i, value: book.rating };
-    });
-
-    //сортируем массив оценок от меньшего к большему
-    sortFromHighToLow(booksGradeList);
-
-    //контейнер для результа сортировки по оценке
-    highGradeBooks = booksGradeList.map(function (book) {
-      return foundBooks[book.index];
-    });
-  }
+  //контейнер для результа сортировки
+  let highGradeBooks = booksPriceList.map(function (book) {
+    return booksArray[book.index];
+  });
 
   return highGradeBooks;
 };
 
-//отрисовка книг, отсортированных по цене по возрастанию
-const showHighGradeBooks = () => {
-  let highGradeBooks = sortOnHighGrade(foundBooks);
-  for (const book of highGradeBooks) {
+const showLowGradeBooks = () => {
+  let lowGradeBooksArray = [];
+
+  if ((selectedBooksArray.length, foundBooks.length) === 0) {
+    lowGradeBooksArray = sortOnLowGrade(CARDS);
+  }
+
+  if (foundBooks.length != 0) {
+    lowGradeBooksArray = sortOnLowGrade(foundBooks);
+  }
+
+  if (selectedBooksArray.length != 0 && foundBooks.length === 0) {
+    lowGradeBooksArray = sortOnLowGrade(selectedBooksArray);
+  }
+
+  for (const book of lowGradeBooksArray) {
     createCard(book);
   }
 };
-///////////////
 
-//сортировка книг по цене при выборе опции селекта
-export const filterProperty = (
+const showHighGradeBooks = () => {
+  let highGradeBooksArray = [];
+
+  if ((selectedBooksArray.length, foundBooks.length) === 0) {
+    highGradeBooksArray = sortOnHighGrade(CARDS);
+  }
+
+  if (foundBooks.length != 0) {
+    highGradeBooksArray = sortOnHighGrade(foundBooks);
+  }
+
+  if (selectedBooksArray.length != 0 && foundBooks.length === 0) {
+    highGradeBooksArray = sortOnHighGrade(selectedBooksArray);
+  }
+
+  for (const book of highGradeBooksArray) {
+    createCard(book);
+  }
+};
+
+//сортировка по остаткам
+const sortOnLowAmount = (booksArray) => {
+  //временный массив содержит объекты с позицией и значением сортировки
+  let booksPriceList = [];
+  booksPriceList = booksArray.map(function (book, i) {
+    return { index: i, value: book.amount };
+  });
+
+  //сортируем массив цен от меньшего к большему
+  sortFromLowToHigh(booksPriceList);
+
+  //контейнер для результа сортировки
+  let lowAmountBooks = booksPriceList.map(function (book) {
+    return booksArray[book.index];
+  });
+
+  return lowAmountBooks;
+};
+
+const sortOnHighAmount = (booksArray) => {
+  //временный массив содержит объекты с позицией и значением сортировки
+  let booksPriceList = [];
+  booksPriceList = booksArray.map(function (book, i) {
+    return { index: i, value: book.amount };
+  });
+
+  //сортируем массив цен от меньшего к большему
+  sortFromHighToLow(booksPriceList);
+
+  //контейнер для результа сортировки
+  let highAmountBooks = booksPriceList.map(function (book) {
+    return booksArray[book.index];
+  });
+
+  return highAmountBooks;
+};
+
+const showLowAmountBooks = () => {
+  let lowAmountBooksArray = [];
+
+  if ((selectedBooksArray.length, foundBooks.length) === 0) {
+    lowAmountBooksArray = sortOnLowAmount(CARDS);
+  }
+
+  if (foundBooks.length != 0) {
+    lowAmountBooksArray = sortOnLowAmount(foundBooks);
+  }
+
+  if (selectedBooksArray.length != 0 && foundBooks.length === 0) {
+    lowAmountBooksArray = sortOnLowAmount(selectedBooksArray);
+  }
+
+  for (const book of lowAmountBooksArray) {
+    createCard(book);
+  }
+};
+
+const showHighAmountBooks = () => {
+  let highAmountBooksArray = [];
+
+  if ((selectedBooksArray.length, foundBooks.length) === 0) {
+    highAmountBooksArray = sortOnHighAmount(CARDS);
+  }
+
+  if (foundBooks.length != 0) {
+    highAmountBooksArray = sortOnHighAmount(foundBooks);
+  }
+
+  if (selectedBooksArray.length != 0 && foundBooks.length === 0) {
+    highAmountBooksArray = sortOnHighAmount(selectedBooksArray);
+  }
+
+  for (const book of highAmountBooksArray) {
+    createCard(book);
+  }
+};
+
+//отрисовка книг по возрастанию/убыванию при выборе фильтров цена/оценка/остаток
+export const showBooksOnFilterProperty = (
   lowPriceBooks,
   topPriceBooks,
   lowGradeBooks,
-  highGradeBooks
+  highGradeBooks,
+  lowAmountBooks,
+  highAmountBooks
 ) => {
+  console.log("найденые книги: ", foundBooks);
+  console.log("выбранные книги: ", selectedBooksArray);
+
   //select убывания/возрастания
   const sortSelectValue =
     bookPriceSelect.options[bookPriceSelect.selectedIndex].value;
@@ -252,16 +292,12 @@ export const filterProperty = (
     booksPropertySelect.options[booksPropertySelect.selectedIndex].value;
 
   //https://learn.javascript.ru/switch
-
+  //если сортируем по цене
   if (propertySelectValue === "price") {
     switch (sortSelectValue) {
-      case "value1":
-        marketContainer.innerHTML = "";
-        getCards(CARDS);
-        break;
-
       case "FromLowToHigh":
         marketContainer.innerHTML = "";
+        //функция сортировки по одному из трёх массивов (все книги, найденные книги, выбранные книги)
         showLowPriceBooks(lowPriceBooks);
         break;
 
@@ -272,14 +308,9 @@ export const filterProperty = (
     }
   }
 
+  //если сортируем по оценке
   if (propertySelectValue === "grade") {
-    console.log("888");
     switch (sortSelectValue) {
-      case "value1":
-        marketContainer.innerHTML = "";
-        getCards(CARDS);
-        break;
-
       case "FromLowToHigh":
         marketContainer.innerHTML = "";
         showLowGradeBooks(lowGradeBooks);
@@ -288,6 +319,20 @@ export const filterProperty = (
       case "FromHighToLow":
         marketContainer.innerHTML = "";
         showHighGradeBooks(highGradeBooks);
+        break;
+    }
+  }
+
+  if (propertySelectValue === "amount") {
+    switch (sortSelectValue) {
+      case "FromLowToHigh":
+        marketContainer.innerHTML = "";
+        showLowAmountBooks(lowAmountBooks);
+        break;
+
+      case "FromHighToLow":
+        marketContainer.innerHTML = "";
+        showHighAmountBooks(highAmountBooks);
         break;
     }
   }

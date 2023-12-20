@@ -1,18 +1,30 @@
 import CARDS from "../books.json" assert { type: "json" }; // https://stackoverflow.com/questions/69548822/
-import { filterBooks } from "./filter.js";
+import { filterBooks, searchBooks } from "./filter.js";
 import { createMarketSection, getCards } from "./createCards.js";
 import {
   createFilterCategory,
   createFilterSection,
   createFilters,
 } from "./createFilter.js";
-import { createSearchBlock, searchBooks } from "./search.js";
 
 //создание main
 const createMain = () => {
   const storeMain = document.createElement("main");
   storeMain.classList.add("store");
   document.body.append(storeMain);
+};
+
+//создание HTML разметки Поиска
+const createSearchBlock = () => {
+  const filterContainer = document.querySelector(".filter__container");
+  const searchInput = document.createElement("input");
+
+  searchInput.setAttribute("type", "search");
+  searchInput.setAttribute("autocomplete", "off");
+  searchInput.setAttribute("id", "search");
+  searchInput.setAttribute("placeholder", "Поиск книги...");
+
+  filterContainer.append(searchInput);
 };
 
 const init = () => {
@@ -32,20 +44,7 @@ export const bookPriceSelect = document.querySelector(".filter__select-price");
 export const booksPropertySelect = document.querySelector(
   ".filter__select-property"
 );
-
-//клик по чекбоксу
-const filterCheckboxes = document.querySelector(".filter__container");
-filterCheckboxes.addEventListener("change", filterBooks);
-
-//клик по карточке товара
-const catcher = document.querySelector(".container");
-catcher.addEventListener("click", ({ target }) => {
-  if (target.closest(".market__card")) {
-    alert("Это не магазин, глупенький!");
-  }
-});
-
-//реализация Live Search. search.js
+//для реализация Live Search. search.js
 export const search = document.getElementById("search");
 //вводимый в input запрос
 export let search_term = "";
@@ -56,13 +55,14 @@ search.addEventListener("input", (event) => {
   searchBooks();
 });
 
-/*
-Функция может вернуть результат, который будет передан в вызвавший её код.
-Директива return может находиться в любом месте тела функции. Как только
-выполнение доходит до этого места, функция останавливается, и значение
-возвращается в вызвавший её код (присваивается переменной result выше)
- */
+//клик по чекбоксу. ./filter.js строка 18
+const filterCheckboxes = document.querySelector(".filter__container");
+filterCheckboxes.addEventListener("change", filterBooks);
 
-/* Видимость переменных в модульной системе https://learn.javascript.ru/modules-intro/ */
-
-/* при выбранном чекбоксе сделать сброс селекта сортировки по цене на первое значение */
+//клик по карточке товара
+const catcher = document.querySelector(".container");
+catcher.addEventListener("click", ({ target }) => {
+  if (target.closest(".market__card")) {
+    alert("Это не магазин, глупенький!");
+  }
+});

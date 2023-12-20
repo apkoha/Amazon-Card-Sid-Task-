@@ -1,6 +1,5 @@
 import CARDS from "../books.json" assert { type: "json" };
-import { search } from "./main.js";
-import { filterProperty } from "./sort.js";
+import { showBooksOnFilterProperty } from "./sort.js";
 
 //создание section class="filter"
 export const createFilterSection = () => {
@@ -35,7 +34,6 @@ export const createFilters = () => {
 
   const booksPropertySelect = document.createElement("select");
   booksPropertySelect.classList.add("filter__select-property");
-  booksPropertySelect.addEventListener("change", clearInputSearch);
   booksPropertySelect.setAttribute("name", "books_select");
   filterPriceContainer.append(booksPropertySelect);
 
@@ -54,7 +52,7 @@ export const createFilters = () => {
   // `;
 
   const bookPriceSelect = document.createElement("select");
-  bookPriceSelect.addEventListener("change", filterProperty);
+  bookPriceSelect.addEventListener("change", showBooksOnFilterProperty);
   bookPriceSelect.classList.add("filter__select-price");
   bookPriceSelect.setAttribute("name", "price_select");
   filterPriceContainer.append(bookPriceSelect);
@@ -107,12 +105,3 @@ export const createFilterCategory = () => {
     categoryContainer.append(categorySpan);
   }
 };
-
-const clearInputSearch = () => {
-  // search.value = "";
-};
-
-/* Можно обернуть input+span в label, чтобы выбор категорий был не только по нажатию на чекбокс,
- но и на наименование категории. Но тогда нужно переписывать filterBooks() */
-
-/*для фильтров по возрастанию/убыванию можно создать файл json из которого будут браться свойства/атрибуты*/

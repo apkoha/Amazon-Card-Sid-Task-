@@ -64,6 +64,3 @@ export const showFiltredBooks = (cards) => {
     createFiltredBooks(card);
   }
 };
-
-/* arr.reverce() - возвращает ссылку, а не новый массив */
-/* переделать сортировку на уже отрисованные книги, а не объекты json */

@@ -1,5 +1,6 @@
 import CARDS from "../books.json" assert { type: "json" };
-import { showBooksOnFilterProperty } from "./sort.js";
+// import { showBooksOnFilterProperty } from "./sort.js";
+import { filterProducts } from "./sort.js";
 
 //создание section class="filter"
 export const createFilterSection = () => {
@@ -36,10 +37,12 @@ export const createFilters = () => {
   booksPropertySelect.classList.add("filter__select-property");
   booksPropertySelect.setAttribute("name", "books_select");
   filterPriceContainer.append(booksPropertySelect);
+  // booksPropertySelect.addEventListener("change", showBooksOnFilterProperty);
+  booksPropertySelect.addEventListener("change", filterProducts);
 
+  // <option class="filter__select-options" value="value2">
+  // </option>;
   booksPropertySelect.innerHTML = `
-  <option class="filter__select-options" value="value2">
-  </option>;
   <option class="filter__select-options" value="price">
     цена
   </option>;
@@ -52,14 +55,15 @@ export const createFilters = () => {
   // `;
 
   const bookPriceSelect = document.createElement("select");
-  bookPriceSelect.addEventListener("change", showBooksOnFilterProperty);
+  // bookPriceSelect.addEventListener("change", showBooksOnFilterProperty);
+  bookPriceSelect.addEventListener("change", filterProducts);
   bookPriceSelect.classList.add("filter__select-price");
   bookPriceSelect.setAttribute("name", "price_select");
   filterPriceContainer.append(bookPriceSelect);
 
+  // <option class="filter__select-options" value="value1">
+  // </option>;
   bookPriceSelect.innerHTML = `
-  <option class="filter__select-options" value="value1">
-  </option>;
   <option class="filter__select-options" value="FromLowToHigh">
   по возрастанию
   </option>;

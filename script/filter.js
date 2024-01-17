@@ -84,6 +84,8 @@ const searchOnMarket = (booksArray) => {
   } else {
     marketContainer.innerHTML = "";
   }
+
+  console.log("foundBooks: ", foundBooks);
 };
 
 export const searchBooks = () => {

@@ -1,5 +1,5 @@
 [
-      {
+  {
     "category": "children",
     "id": 7,
     "title": "Peter Pan",
@@ -14,9 +14,9 @@
     "description": "Peter Pan is a fictional character created by Scottish novelist and playwright J. M. Barrie. A free-spirited and mischievous young boy who can fly and never grows up, Peter Pan spends his never-ending childhood having adventures on the mythical island of Neverland as the leader of the Lost Boys, interacting with fairies, pirates, mermaids, Native Americans, and occasionally ordinary children from the world outside Neverland.",
     "amount": 8
   },
-    {
+  {
     "category": "classic",
-    "id": 7,
+    "id": 8,
     "title": "War and Peace",
     "author": "Leo Tolstoy",
     "price": 22.99,

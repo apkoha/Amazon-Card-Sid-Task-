@@ -1,4 +1,4 @@
-import CARDS from "../books.json" assert { type: "json" }; // https://stackoverflow.com/questions/69548822/
+import CARDS from "../books.json" with { type: "json" }; // https://stackoverflow.com/questions/69548822/
 import { filterBooks, searchBooks } from "./filter.js";
 import { createMarketSection, getCards } from "./createCards.js";
 import {

@@ -1,4 +1,4 @@
-import CARDS from "../books.json" assert { type: "json" };
+import CARDS from "../books.json" with { type: "json" };
 import { createCard } from "./createCards.js";
 
 import {

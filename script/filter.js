@@ -1,4 +1,4 @@
-import CARDS from "../books.json" assert { type: "json" };
+import CARDS from "../books.json" with { type: "json" };
 
 import { categoryList, getCards, showFiltredBooks } from "./createCards.js";
 import { marketContainer, search, search_term } from "./main.js";
